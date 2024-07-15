@@ -1,14 +1,15 @@
 // controllers/notesController.js
 const Note = require('../models/noteModel');
-
+const User = require("../models/userModel")
 // Create a new note
 const createNote = async (req, res) => {
     const { title, description } = req.body;
-
+    const userId = req.user._id; // Assuming user ID is set in the request object after authentication
     try {
         const newNote = new Note({
             title,
-            description
+            description,
+            user: userId
         });
 
         const savedNote = await newNote.save();
@@ -30,6 +31,19 @@ const getNotes = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+const getNotesByUser = async (req, res) => {
+    const userId = req.user._id; // Assuming user ID is set in the request object after authentication
+
+    try {
+        const notes = await Note.find({ user: userId });
+
+        res.status(200).json(notes);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
+
 
 // Get a single note by ID
 const getNoteById = async (req, res) => {
@@ -79,5 +93,6 @@ module.exports = {
     getNotes,
     getNoteById,
     updateNote,
-    deleteNote
+    deleteNote,
+    getNotesByUser
 };

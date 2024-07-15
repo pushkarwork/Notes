@@ -5,17 +5,53 @@ const User = require('../models/userModel');
 const createUser = async (req, res) => {
     const { name, email, password } = req.body;
 
-    try {
-        const newUser = new User({
-            name, email, password
-        });
+    const user = await User.findOne({ email });
+    if (user) {
+        return res.status(404).json({ message: 'User already exist found' });
+    } else {
+        try {
+            const newUser = new User({
+                name, email, password
+            });
 
-        const savedUser = await newUser.save();
-        res.status(201).json(savedUser);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+            const savedUser = await newUser.save();
+            res.status(201).json(savedUser);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
     }
 };
+
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password are required' });
+        }
+
+        // Check if the user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Compare the password
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid password' });
+        }
+
+        // Generate a token
+        const token = user.generateJWT();
+        res.header('Authorization', `Bearer ${token}`);
+
+        // Respond with the token
+        res.status(200).json({ token });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
+
 
 // Get all Users
 const getUsers = async (req, res) => {
@@ -75,10 +111,28 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const logout = (req, res) => {
+    try {
+        // Clear the 'token' cookie
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logged out successfully' });
+    } catch (error) {
+        console.error('Error logging out:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const dashboard = async (req, res) => {
+    res.send("welcome to the dashboard")
+}
+
+
+
 module.exports = {
     createUser,
     getUsers,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser, loginUser,
+    dashboard, logout
 };
