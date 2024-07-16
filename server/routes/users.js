@@ -15,7 +15,7 @@ router.get("/user/:id", getUserById)
 router.post("/newUser", createUser)
 router.put("/user/:id", updateUser)
 router.delete("/user/:id", deleteUser)
-router.get('/login', loginUser)
+router.post('/login', loginUser)
 router.get("/dashboard", authenticateUser, dashboard)
 router.get("/logout",authenticateUser,logout)
 

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
@@ -16,12 +16,15 @@ const Navbar = () => {
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                             </li>
                         </ul>
-
+                        <div className="d-flex ms-auto">
+                            <Link to="/login" className="btn btn-outline-primary me-2">Login</Link>
+                            <Link to="/register" className="btn btn-outline-secondary">Register</Link>
+                        </div>
                     </div>
                 </div>
             </nav>
         </div>
-    )
+    );
 }
 
-export default Navbar
+export default Navbar;
