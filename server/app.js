@@ -16,7 +16,14 @@ db();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 // Enable all CORS requests
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173', // Allow your frontend origin
+  credentials: true // Allow cookies and other credentials
+};
+
+app.use(cors(corsOptions));
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
