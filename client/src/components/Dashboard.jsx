@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getNotes } from '../features/notes/noteSlice';
 
 const Dashboard = () => {
@@ -36,11 +36,11 @@ const Dashboard = () => {
                     {allNotes.length > 0 ? (
                         <ul>
                             {allNotes.map(note => (
-                                <div className="card" style={{ "width": "18rem" }}>
+                                <div key={note._id} className="card" style={{ "width": "18rem" }}>
                                     <div className="card-body">
                                         <h5 className="card-title">{note.title}</h5>
                                         <p className="card-text">{note.description}</p>
-                                        <a href="#" className="btn btn-primary">Go somewhere</a>
+                                        <Link to={`/note/${note._id}`} className="btn btn-primary">Go somewhere</Link>
                                     </div>
                                 </div>
                             ))}
