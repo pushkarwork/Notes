@@ -36,9 +36,12 @@ const Dashboard = () => {
                     {allNotes.length > 0 ? (
                         <ul>
                             {allNotes.map(note => (
-                                <div>
-                                    <p>{note.title}</p>
-                                    <p>{note.description}</p>
+                                <div className="card" style={{ "width": "18rem" }}>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{note.title}</h5>
+                                        <p className="card-text">{note.description}</p>
+                                        <a href="#" className="btn btn-primary">Go somewhere</a>
+                                    </div>
                                 </div>
                             ))}
                         </ul>
