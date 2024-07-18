@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+// import { login } from '../slices/authSlice'; // Update the path as needed
+import { login } from '../features/user/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const nav = useNavigate()
+    const dispatch = useDispatch();
+    const status = useSelector((state) => state.auth.status)
+    const error = useSelector((state) => state.auth.error)
+    const nav = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -16,34 +22,30 @@ const Login = () => {
         });
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-           
-            const response = await fetch('http://localhost:5000/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json()
+        dispatch(login(formData));
+        console.log("try ligin")
 
-            localStorage.setItem("auth", data.token)
-            setFormData({
-                email: '',
-                password: ''
-            });
 
-        } catch (error) {
-            console.error('Error logging in:', error.message);
-            // Handle error state or display error message to the user
-            window.alert(error.message); // This is just for demonstration, consider a better UI approach
-        }
+        setFormData({
+            email: '',
+            password: ''
+        });
     };
+
+    useEffect(() => {
+        if (status === 'succeeded') {
+            console.log("login success");
+            nav('/dashboard'); // Navigate on success
+        } else if (status === 'failed') {
+            console.error("Login failed:", error);
+            window.alert(error);
+        }
+    }, [status, error, nav]);
+
 
     return (
         <div style={styles.container}>
@@ -79,13 +81,13 @@ const Login = () => {
     );
 };
 
+
 const styles = {
     container: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        // backgroundColor: '#3b4854',
     },
     form: {
         width: '100%',
