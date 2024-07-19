@@ -1,11 +1,13 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import "../../public/singleNote.css"
+import { getNotes } from '../features/notes/noteSlice'
 const SingleNote = () => {
     const nav = useNavigate()
     // useEffect
+    const dispatch = useDispatch()
     const { _id } = useParams()
     const tokenRedux = useSelector((state) => state.auth.token);
 
@@ -15,10 +17,12 @@ const SingleNote = () => {
         if (!token && !tokenRedux) {
             nav("/login");
         }
+        dispatch(getNotes(token))
+
     }, [tokenRedux, nav]);
 
     const allnotes = useSelector((state) => state.notes.allNotes)
-    console.log(allnotes)
+    // console.log(allnotes)
     const note = allnotes.find(note => note._id === _id)
 
 
