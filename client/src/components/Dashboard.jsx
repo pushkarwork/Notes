@@ -29,22 +29,24 @@ const Dashboard = () => {
     return (
         <div>
             <h1>This is the dashboard.</h1>
-            <button onClick={handleLogout} className="btn btn-danger">Logout</button>
+            <br></br>
+
             {notesStatus === 'loading' && <p>Loading notes...</p>}
             {notesStatus === 'succeeded' && (
                 <div>
                     {allNotes.length > 0 ? (
-                        <ul>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-around' }}>
                             {allNotes.map(note => (
-                                <div key={note._id} className="card" style={{ "width": "18rem" }}>
+                                <div key={note._id} className="card" style={{ width: '18rem' }}>
                                     <div className="card-body">
                                         <h5 className="card-title">{note.title}</h5>
                                         <p className="card-text">{note.description}</p>
                                         <Link to={`/note/${note._id}`} className="btn btn-primary">Go somewhere</Link>
+                                        <Link to={`/note/edit/${note._id}`} className='btn btn-info ms-2'>Edit</Link>
                                     </div>
                                 </div>
                             ))}
-                        </ul>
+                        </div>
                     ) : (
                         <p>No notes found.</p>
                     )}

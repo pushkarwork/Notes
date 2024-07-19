@@ -6,6 +6,8 @@ import Register from './components/Register'
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import SingleNote from './components/SingleNote'
+import CreateNote from './components/CreateNote'
+import EditNote from './components/EditNote'
 
 //IMPORTANT NOTE
 //LOCALSTORAGE MEI TOKEN SET KAR DIYA EK BAR LOGIN KARKE AUR FIR IS TOKEN KO REDUX KI INITIAL STATE ME SET KER DIA
@@ -20,6 +22,8 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/note/:_id' element={<SingleNote />} />
+          <Route path='/create' element={<CreateNote />} />
+          <Route path='/note/edit/:_id' element={<EditNote />} />
         </Routes>
       </BrowserRouter>
     </div>

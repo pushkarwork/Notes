@@ -32,10 +32,14 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                             </li>
+                            {token ? (<li className="nav-item">
+                                <Link className="nav-link active" aria-current="page" to="/create">Create Note</Link>
+                            </li>) : null}
                         </ul>
                         <div className="d-flex ms-auto">
                             {token ? (
                                 <>
+                                    <Link to="/dashboard" className="btn btn-outline-primary me-2">Dashboard</Link>
                                     <button
                                         className="btn btn-outline-danger"
                                         onClick={handleLogout}
