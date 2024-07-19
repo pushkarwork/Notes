@@ -15,7 +15,7 @@ const Navbar = () => {
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/">Navbar</Link>
+                    <Link className="navbar-brand" to="/">Our Diary</Link>
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -29,9 +29,7 @@ const Navbar = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
-                            </li>
+                           
                             {token ? (<li className="nav-item">
                                 <Link className="nav-link active" aria-current="page" to="/create">Create Note</Link>
                             </li>) : null}

@@ -40,7 +40,7 @@ const Dashboard = () => {
                                     <div className="card-body">
                                         <h5 className="card-title">{note.title}</h5>
                                         <p className="card-text">{note.description}</p>
-                                        <Link to={`/note/${note._id}`} className="btn btn-primary">Go somewhere</Link>
+                                        <Link to={`/note/${note._id}`} className="btn btn-primary">Read More...</Link>
                                         <Link to={`/note/edit/${note._id}`} className='btn btn-info ms-2'>Edit</Link>
                                         <button onClick={() => handleDeleteNote(note._id)} className='btn btn-danger ms-2'>Delete</button>
                                     </div>
