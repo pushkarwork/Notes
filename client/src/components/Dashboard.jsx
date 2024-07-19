@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getNotes } from '../features/notes/noteSlice';
+import { getNotes, deleteNote } from '../features/notes/noteSlice';
 
 const Dashboard = () => {
     const nav = useNavigate();
@@ -21,9 +21,8 @@ const Dashboard = () => {
         }
     }, [tokenRedux, nav, dispatch]);
 
-    const handleLogout = () => {
-        localStorage.removeItem("auth"); // Clear token from localStorage
-        nav("/login"); // Redirect to login
+    const handleDeleteNote = (noteId) => {
+        dispatch(deleteNote(noteId));
     };
 
     return (
@@ -37,12 +36,13 @@ const Dashboard = () => {
                     {allNotes.length > 0 ? (
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-around' }}>
                             {allNotes.map(note => (
-                                <div key={note._id} className="card" style={{ width: '18rem' }}>
+                                <div key={note._id} className="card" style={{ width: '19rem' }}>
                                     <div className="card-body">
                                         <h5 className="card-title">{note.title}</h5>
                                         <p className="card-text">{note.description}</p>
                                         <Link to={`/note/${note._id}`} className="btn btn-primary">Go somewhere</Link>
                                         <Link to={`/note/edit/${note._id}`} className='btn btn-info ms-2'>Edit</Link>
+                                        <button onClick={() => handleDeleteNote(note._id)} className='btn btn-danger ms-2'>Delete</button>
                                     </div>
                                 </div>
                             ))}

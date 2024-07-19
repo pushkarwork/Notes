@@ -73,6 +73,25 @@ export const updateNote = createAsyncThunk("notes/updateNote", async ({ id, upda
     return data;
 });
 
+// New deleteNote thunk
+export const deleteNote = createAsyncThunk('notes/deleteNote', async (noteId, { rejectWithValue }) => {
+    try {
+        const response = await fetch(`http://localhost:5000/notes/Note/${noteId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return noteId;
+    } catch (err) {
+        return rejectWithValue(err.message);
+    }
+});
 
 const noteSlice = createSlice({
     name: "notes",
@@ -139,6 +158,17 @@ const noteSlice = createSlice({
             .addCase(updateNote.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
+            })
+            .addCase(deleteNote.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteNote.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.allNotes = state.allNotes.filter(note => note._id !== action.payload);
+            })
+            .addCase(deleteNote.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             });
     }
 })
